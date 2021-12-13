@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>Name := 'E:/博士/论文/肺炎增强/2021-11/experiment/ours/USRNet_1/'</l>
+<c></c>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,2]" as_ord="1">for Index := 0 to 187 - 1 by 1</l>
+<c></c>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,3]" as_ord="1">    read_image (Image, Name + Index + '_x4_usrnet.png')</l>
+<c as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,4]" as_ord="1">    * Image Acquisition 01: Do something</c>
+<l>    rgb3_to_gray (Image, Image, Image, ImageGray)</l>
+<l>    emphasize (ImageGray, ImageEmphasize, 5, 5, 1)</l>
+<c>    </c>
+<c>    </c>
+<c>    *增强病灶区域</c>
+<l>    threshold (ImageEmphasize, Regions1, 135, 255)</l>
+<l>    connection (Regions1, ConnectedRegions)</l>
+<l>    select_shape (ConnectedRegions, SelectedRegions, 'area', 'and', 500, 99999)</l>
+<l>    paint_region (SelectedRegions, ImageEmphasize, ImageResult, 130, 'fill')</l>
+<c>    </c>
+<c>    *去除白色噪声</c>
+<l>    threshold (ImageEmphasize, Regions2, 80, 255)</l>
+<l>    connection (Regions2, ConnectedRegions1)</l>
+<l>    select_shape (ConnectedRegions1, SelectedRegions1, 'area', 'and', 0, 50)</l>
+<l>    union1 (SelectedRegions1, RegionUnion1)</l>
+<l>    dilation_circle (RegionUnion1, RegionDilation, 2)</l>
+<l>    paint_region (RegionDilation, ImageResult, ImageResult1, 68, 'fill')</l>
+<c>    </c>
+<c>    *填充附近区域</c>
+<l>    select_shape (ConnectedRegions, SelectedRegions1, 'area', 'and', 50, 20000)</l>
+<l>    closing_circle (SelectedRegions1, RegionClosing1, 3)</l>
+<l>    union1 (RegionClosing1, RegionUnion)</l>
+<l>    difference (RegionUnion, SelectedRegions1, RegionDifference)</l>
+<l>    paint_region (RegionDifference, ImageResult1, ImageResult2, 120, 'fill')</l>
+<c>    </c>
+<c>    </c>
+<c>    </c>
+<l>    zoom_image_factor (ImageResult2, ImageZoomed, 0.25, 0.25, 'bilinear')</l>
+<l>    stop ()</l>
+<l>*     write_image (ImageZoomed, 'png', 0, 'E:/博士/论文/肺炎增强/2021-11/experiment/ours/result/'+ Index +'_ours.png')</l>
+<l>*     write_image (ImageZoomed, 'png', 0, 'E:/博士/论文/CT增强/covid论文/covid/exp_2/exp0/emp/33.png')</l>
+<c>    </c>
+<c>    </c>
+<l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[3,1]" as_ord="1">endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
