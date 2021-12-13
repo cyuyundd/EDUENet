@@ -3,7 +3,7 @@
 <procedure name="main">
 <interface/>
 <body>
-<l>Name := 'E:/博士/论文/肺炎增强/2021-11/experiment/ours/USRNet_1/'</l>
+<l>Name := './experiment/ours/USRNet_1/'</l>
 <c></c>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[2,2]" as_ord="1">for Index := 0 to 187 - 1 by 1</l>
 <c></c>
@@ -37,9 +37,8 @@
 <c>    </c>
 <c>    </c>
 <l>    zoom_image_factor (ImageResult2, ImageZoomed, 0.25, 0.25, 'bilinear')</l>
-<l>    stop ()</l>
-<l>*     write_image (ImageZoomed, 'png', 0, 'E:/博士/论文/肺炎增强/2021-11/experiment/ours/result/'+ Index +'_ours.png')</l>
-<l>*     write_image (ImageZoomed, 'png', 0, 'E:/博士/论文/CT增强/covid论文/covid/exp_2/exp0/emp/33.png')</l>
+
+<l>     write_image (ImageZoomed, 'png', 0, './experiment/ours/result/'+ Index +'_ours.png')</l>
 <c>    </c>
 <c>    </c>
 <l as_id="image_acquisition" as_name="Image Acquisition 01" as_grp="[3,1]" as_ord="1">endfor</l>
